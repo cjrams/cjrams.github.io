@@ -7,10 +7,12 @@ baseurl: '/'
 # disqus_shortname: 'your-disqus-name'
 
 author:
-  name: 'Carlos Jimenez Rams
+  name: 'Carlos Jimenez Rams'
   email: cjrams@gmai.com
   github_username:  cjrams
   linkedin_username:  cjrams
+#  twitter_username: cjrams
+#  facebook_username: cjrams
 
 defaults:
   -
