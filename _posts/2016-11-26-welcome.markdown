@@ -1,0 +1,19 @@
+---
+title:  "Welcome"
+date:   2016-11-26 01:30:00
+categories: [cjrams]
+tags: [cjrams]
+---
+Welcome to my developer blog.
+
+I'll try to write down some of my thoughts and findings and my open source projects and may be comment out other interesting ones. I'll try to create content based on an irregular schedule.
+
+Currently I'm working at [King][king], since 2014, on the King Platform team as mobile developer, working with C++ as main programming language.
+
+Thanks for reading
+
+/Carlos Jiménez Rams
+
+
+[king]: https://king.com/
+
