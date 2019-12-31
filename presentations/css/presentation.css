@@ -1,0 +1,7 @@
+.img-circle {
+    border-radius: 50%;
+    width: 20%;
+    height: 20%;
+    border-style: hidden;
+    align: right;
+}
