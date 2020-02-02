@@ -106,8 +106,8 @@
 						</code></pre>
 						<pre><code data-trim data-noescape>
 ---
-Language:        Cpp
-BasedOnStyle:  LLVM
+Language: Cpp
+BasedOnStyle: LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
 AlignConsecutiveMacros: false
@@ -212,22 +212,120 @@ if (something === 'something') {
 					</code></pre>
 					<br><span class="fragment fade-up">Just some checks
 					<pre class="fragment fade-up"><code data-trim data-noescape>
-					clang-tidy test.cpp -checks=-*,clang-analyzer-*,-clang-analyzer-cplusplus*
+					clang-tidy test.cpp -checks=-*,clang-analyzer-*,
+						-clang-analyzer-cplusplus*
 					</code></pre></span></p>
-					<p class="fragment fade-up">Plus compilation library</p>
+					<p class="fragment fade-up">Plus compilation database 🤞</p>
 				</section>
 				<section>
 					<h3>Clang Tidy</h3>
-					<span class="fragment fade-up"><p>CMake to the rescue (Version 3.7.2+)
-					<br><pre class="fragment fade-up"><code data-trim data-noescape>
-					set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*")
-					</code></pre></p></span>
+					<h4>Compilation database</h4>
+					<pre><code data-trim data-noescape>
+						-DCMAKE_EXPORT_COMPILE_COMMANDS=True
+					</code></pre>
+					<p>A compilation database is a JSON file, which consists 
+						of an array of “command objects”, where each command
+						object specifies one way a translation unit is compiled
+						in the project. Each command object contains the
+						translation unit’s main file, the working directory
+						of the compile run and the actual compile command. 
+					</p>
 				</section>
 				<section>
 					<h3>Clang Tidy</h3>
+					<span class="fragment fade-up">
+						<p>CMake to the rescue (Version 3.7.2+)<br>
+							<pre class="fragment fade-up"><code data-trim data-noescape>
+								set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*;")
+							</code></pre>
+						</p>
+					</span>
+					<span class="fragment fade-up"><p>Just one project
+						<pre><code data-trim data-noescape>
+							set_property(TARGET "${PROJ_NAME}" PROPERTY 
+								CXX_CLANG_TIDY "clang-tidy;-checks=*;")
+						</code></pre>
+					</p></span>
+					<span class="fragment fade-up"><p>Or multiple
+						<pre><code data-trim data-noescape>
+							set_target_properties(${PROJ_LIST} PROPERTIES
+								CXX_CLANG_TIDY "clang-tidy;-checks=*;")
+						</code></pre>
+					</p></span>
 				</section>
 				<section>
 					<h3>Clang Tidy</h3>
+					<h4>Check familes</h4>					
+					<h5>Important</h5>
+					<ul>
+						<li>bugprone-	Checks that target bug prone code constructs.</li>
+						<li>clang-analyzer-	Clang Static Analyzer checks.</li>
+						<li>hicpp-	Checks related to High Integrity C++ Coding Standard.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Clang Tidy</h3>
+					<h5>Nice ones</h5>
+					<ul>
+						<li>cppcoreguidelines-	Checks related to C++ Core Guidelines.</li>
+						<li>misc-	Checks that we didn’t have a better category for.</li>
+						<li>performance-	Checks that target performance-related issues.</li>
+						<li>modernize-	Checks that advocate usage of modern (currently 
+							“modern” means “C++11”) language constructs. </li>
+					</ul>
+				</section>
+				<section>
+					<h3>Clang Tidy</h3>
+					<h5>Nice ones</h5>
+					<ul>
+						<li>portability-	Checks that target portability-related issues
+							that don’t relate to any particular coding style.</li>
+						<li>readability-	Checks that target readability-related issues
+							that don’t relate to any particular coding style.</li>
+						<li>cert-	Checks related to CERT Secure Coding Guidelines.</li>
+						<li>mpi-	Checks related to MPI (Message Passing Interface).</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Clang Tidy</h3>
+					<h5>Optionals</h5>
+					<ul>
+						<li>objc-	Checks related to Objective-C coding conventions.</li>
+						<li>openmp-	Checks related to OpenMP API.</li>
+						<li>android-	Checks related to Android.</li>
+						<li>boost-	Checks related to Boost library.</li>
+						<li>llvm-	Checks related to the LLVM coding conventions.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Clang Tidy</h3>
+					<h5>Trully optionals</h5>
+					<ul>
+						<li>abseil-	Checks related to Abseil library.</li>
+						<li>fuchsia-	Checks related to Fuchsia coding conventions.</li>
+						<li>google-	Checks related to Google coding conventions.</li>
+						<li>zircon-	Checks related to Zircon kernel coding conventions.</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Clang Tidy</h3>
+					<p>(Almost) full sample
+						<pre><code data-trim data-noescape>
+							set(CLANG_TIDY_CHECKS "-*,objc-*,certs-*,
+								modernize-*, -modernize-use-trailing-return-type,
+								readability-*, -readability-uppercase-literal-suffix,
+								portability-*, performance-*, misc-*, bugprone-*,
+								cppcoreguidelines-*, clang-analyzer-*,
+								hicpp-*, -hicpp-special-member-functions,
+								-hicpp-uppercase-literal-suffix")
+							set_target_properties(
+								${package_name}
+								PROPERTIES CXX_CLANG_TIDY
+								"clang-tidy;-header-filter=${CMAKE_CURRENT_LIST_DIR}/.;
+								-checks=${CLANG_TIDY_CHECKS};
+								-warnings-as-errors=*;")
+						</code></pre>
+					</p>
 				</section>
 				<section>
 					<h2>Clang Tools</h2>
